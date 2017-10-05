@@ -1,6 +1,9 @@
 package hscard;
 
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +27,10 @@ public class TabPanel extends JPanel{
 		
 		private JTextField searchField;
 		private JButton searchBtn;
+		private boolean flag = true;
+		private String sel1;
+		private String sel2;
+		private JRadioButton checkFalse;
 		
 		//Constructor
 		public TabPanel() {
@@ -66,6 +73,8 @@ public class TabPanel extends JPanel{
 					btnGroup.add(radio[i]);
 					add(radio[i]);
 				}
+				checkFalse = new JRadioButton();
+				btnGroup.add(checkFalse);
 				
 				add(searchField);
 				add(searchBtn);
@@ -78,19 +87,37 @@ public class TabPanel extends JPanel{
 		
 		public void setEvent(){
 			for (int i = 0; i < radio.length; i++) {
-				radio[i].addActionListener(
-						e -> { 
-								for (int j = 0; j < radio.length; j++) {
-									if(radio[j].isSelected()){
-										ImageIcon chgradioImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\c" + j + ".png", 35, 35);
-										radio[j].setIcon(chgradioImg);
-									}else{
-										ImageIcon chgradioImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\" + j + ".png", 35, 35);
-										radio[j].setIcon(chgradioImg);
-									}
+				radio[i].addActionListener(new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						JRadioButton who = (JRadioButton)e.getSource();
+						if(flag){
+							sel1 = who.getName();
+							flag = false;
+						}else{
+							sel2 = who.getName();
+							flag = true;
+						}
+						if(sel1.equals(sel2)){
+							checkFalse.setSelected(true);
+						}
+						for (int j = 0; j < radio.length; j++) {
+								if(radio[j].isSelected()){
+									ImageIcon chgradioImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\c" + j + ".png", 35, 35);
+									radio[j].setIcon(chgradioImg);
+								}else{
+									ImageIcon chgradioImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\" + j + ".png", 35, 35);
+									radio[j].setIcon(chgradioImg);
 								}
-							 });
+						}
+					}
+				});
 			}
+			
+			insertBtn.addActionListener(
+				e -> {
+						InsertCard insertDialog = new InsertCard();
+					 });
 	  }
 
 		

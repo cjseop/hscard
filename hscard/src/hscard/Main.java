@@ -16,22 +16,7 @@ public class Main extends JFrame {
 	private TabPanel tp;
 	
 	//constructor
-	public Main(String title) throws IOException {
-	
-//		JPanel jp = new JPanel(){
-//			public void paintComponent(Graphics g){
-//				ImageIcon backgroundImage = new ImageIcon("C:\\Users\\KISSCO-PC82\\workspace\\hscard\\src\\images\\background.jpg");
-//				Image img = backgroundImage.getImage();
-//				
-//				AlphaComposite ac = AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f);
-//				Graphics2D g2 = (Graphics2D) g;
-//				g2.setComposite(ac);
-//				g2.drawImage(newbackgroundImage.getImage(), 0, 0, null);
-//				setOpaque(false);
-//				super.paintComponent(g2);
-//			}
-//		};
-		
+	public Main(String title) throws IOException {		
 		ImageIcon backgroundImage = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\background.jpg", 1400, 900);
 		setContentPane(new JLabel(backgroundImage));
 		tp = new TabPanel();
@@ -40,6 +25,7 @@ public class Main extends JFrame {
 		setSize(1400, 900);
 		setLayout(null);
 		add(tp);
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
