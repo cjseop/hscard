@@ -31,9 +31,8 @@ public class Main extends JFrame {
 //				super.paintComponent(g2);
 //			}
 //		};
-		BufferedImage img = ImageIO.read(new File("C:\\Users\\KISSCO-PC82\\workspace\\hscard\\src\\images\\background.jpg"));
-		Image resizeImg = img.getScaledInstance(1400, 900, Image.SCALE_SMOOTH);
-		ImageIcon backgroundImage = new ImageIcon(resizeImg);
+		
+		ImageIcon backgroundImage = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\background.jpg", 1400, 900);
 		setContentPane(new JLabel(backgroundImage));
 		tp = new TabPanel();
 		tp.setBounds(100, 50, 1200, 750);
@@ -41,8 +40,6 @@ public class Main extends JFrame {
 		setSize(1400, 900);
 		setLayout(null);
 		add(tp);
-		
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);

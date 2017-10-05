@@ -3,6 +3,8 @@ package hscard;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,7 +20,7 @@ import javax.swing.plaf.basic.BasicTabbedPaneUI;
 public class HsTappedPane extends JTabbedPane {
 	//Instance
 	private JPanel[] jpanel;
-	private JLabel[] lb;
+	private JLabel[] cardImageLabel;
 	private final String[] jobTitle = {"ウォリアー", "ドルイド","ハンター","メイジー","パラディン",
 									   "プリースト","ローグ","シャーマン",
 									   "ウォーロック","共通"};
@@ -27,6 +29,7 @@ public class HsTappedPane extends JTabbedPane {
 	//Constructor
 	public HsTappedPane() {
 		setCompose();
+		setEvent();
 	}
 	
 	public void setCompose(){
@@ -44,31 +47,34 @@ public class HsTappedPane extends JTabbedPane {
 		});
 		
 		jpanel = new JPanel[10];
-		lb = new JLabel[10];
-		try {
+		cardImageLabel = new JLabel[10];
+		
 			for (int i = 0; i < jpanel.length; i++) {
-				BufferedImage imgBuffer = ImageIO.read(new File("C:\\Users\\KISSCO-PC82\\workspace\\hscard\\src\\images\\"+iconName + (i + 1) +".gif"));
-				Image resizeImg = imgBuffer.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-				ImageIcon imc = new ImageIcon(resizeImg);
-				
-				imgBuffer = ImageIO.read(new File("C:\\Users\\KISSCO-PC82\\workspace\\hscard\\src\\images\\sample" + ((i + 1) % 3) + ".jpg"));
-				resizeImg = imgBuffer.getScaledInstance(200, 300, Image.SCALE_SMOOTH);
-				ImageIcon cardImg = new ImageIcon(resizeImg);
+				ImageIcon imc = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\"+iconName + (i + 1) +".gif", 40, 40);
+				ImageIcon cardImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\sample" + ((i + 1) % 3) + ".jpg", 200, 300);
 				jpanel[i] = new JPanel();
 				this.addTab("", imc, jpanel[i], jobTitle[i]);
 				for (int j = 0; j < jpanel.length; j++) {
-					lb[j] = new JLabel(cardImg);
-					jpanel[i].add(lb[j]);
+					cardImageLabel[j] = new JLabel(cardImg);
+					jpanel[i].add(cardImageLabel[j]);
+					cardImageLabel[j].addMouseListener(new MyMouseEvent());
 					
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	public void setEvent(){
 		
 	}
-
+	
+	//Innerclass MouseEvent
+	class MyMouseEvent extends MouseAdapter{
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if(e.getButton() == MouseEvent.BUTTON3){
+				
+			}
+		}
+	}
 }
