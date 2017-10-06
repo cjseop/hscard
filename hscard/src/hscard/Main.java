@@ -1,13 +1,7 @@
 package hscard;
 
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -17,7 +11,7 @@ public class Main extends JFrame {
 	
 	//constructor
 	public Main(String title) throws IOException {		
-		ImageIcon backgroundImage = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\background.jpg", 1400, 900);
+		ImageIcon backgroundImage = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\Back2.jpg", 1400, 900);
 		setContentPane(new JLabel(backgroundImage));
 		tp = new TabPanel();
 		tp.setBounds(100, 50, 1200, 750);

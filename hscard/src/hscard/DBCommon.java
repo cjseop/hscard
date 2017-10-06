@@ -9,11 +9,11 @@ public class DBCommon implements ConnectDB {
 	Connection conn = null;
 	
 	public DBCommon() {
-		ConnectDB();
+		ConnectDataBase();
 	}
 	
 	@Override
-	public void ConnectDB() {
+	public void ConnectDataBase() {
 		try {
 			Class.forName(ConnectDB.DB_DRIVER);
 			conn = DriverManager.getConnection(ConnectDB.DB_URL, ConnectDB.DB_USR,	ConnectDB.DB_PASSWORD);

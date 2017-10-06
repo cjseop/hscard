@@ -2,10 +2,11 @@ package hscard;
 
 import java.awt.Color;
 import java.awt.Font;
-
+import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 public class DetailCard extends JDialog {
@@ -27,6 +28,16 @@ public class DetailCard extends JDialog {
 	
 	//Method
 	public void setCompose(){
+		ImageIcon background = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\detailBackIcon.jpg", 500, 300);
+		JPanel panel = new JPanel(){
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(background.getImage(), 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		panel.setLayout(null);
+		setContentPane(panel);
 		ImageIcon cardImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\sample1.jpg", 180, 230);
 		cardDetailImg = new JLabel(cardImg);
 		cardDetailImg.setBounds(25, 20, 180, 230);

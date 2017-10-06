@@ -1,13 +1,14 @@
 package hscard;
 
+import java.awt.Graphics;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -47,7 +48,7 @@ public class ChangeCard extends JDialog {
 	public ChangeCard() {
 		setLayout(null);
 		setSize(400, 620);
-		setTitle("カード情報登録");
+		setTitle("カード情報変更");
 		setModal(true);
 		setResizable(false);
 		setLocationRelativeTo(null);
@@ -58,6 +59,16 @@ public class ChangeCard extends JDialog {
 	
 	//Method
 	public void setCompose(){
+		ImageIcon background = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\modalBackIcon.jpg", 400, 620);
+		JPanel panel = new JPanel(){
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(background.getImage(), 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		panel.setLayout(null);
+		setContentPane(panel);
 		label = new JLabel[9];
 		for (int i = 0; i < label.length; i++) {
 			label[i] = new JLabel(labelName[i]);
@@ -131,6 +142,10 @@ public class ChangeCard extends JDialog {
 					imagePath.setText(file.toString());
 				}
 			 });
+		confirmBtn.addActionListener(
+				e -> {
+						this.dispose();
+					 });
 	}
 }
 

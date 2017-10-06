@@ -6,6 +6,6 @@ public interface ConnectDB {
 	public final String DB_PASSWORD = "oracle";
 	public final String DB_DRIVER = "oracle.jdbc.driver.OracleDriver";
 	
-	public void ConnectDB();
+	public void ConnectDataBase();
 	public void closeDB();
 }

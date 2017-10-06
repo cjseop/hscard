@@ -1,9 +1,8 @@
 package hscard;
 
-
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -11,7 +10,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
-
 
 public class TabPanel extends JPanel{
 		//Instance
@@ -69,6 +67,7 @@ public class TabPanel extends JPanel{
 					radio[i] = new JRadioButton(radioImg);
 					radio[i].setName(i+"");
 					radio[i].setBounds((i * 45) + 360, 685, 40, 40);
+					radio[i].setBackground(Color.darkGray);
 					
 					btnGroup.add(radio[i]);
 					add(radio[i]);
@@ -84,6 +83,7 @@ public class TabPanel extends JPanel{
 				add(nexBtn);
 				add(insertBtn);
 				add(hsTap);
+				
 		}
 		
 		public void setEvent(){
@@ -123,7 +123,6 @@ public class TabPanel extends JPanel{
 					 });
 	  }
 
-		
 }
 
 

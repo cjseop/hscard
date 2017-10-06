@@ -1,13 +1,14 @@
 package hscard;
 
+import java.awt.Graphics;
 import java.io.File;
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -45,7 +46,6 @@ public class InsertCard extends JDialog {
 	
 	//Constructor
 	public InsertCard() {
-		setLayout(null);
 		setSize(400, 620);
 		setTitle("カード情報登録");
 		setModal(true);
@@ -54,10 +54,21 @@ public class InsertCard extends JDialog {
 		setCompose();
 		setEvent();
 		setVisible(true);
+		
 	}
 	
 	//Method
 	public void setCompose(){
+		ImageIcon background = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\modalBackIcon.jpg", 400, 620);
+		JPanel panel = new JPanel(){
+			@Override
+			protected void paintComponent(Graphics g) {
+				g.drawImage(background.getImage(), 0, 0, null);
+				setOpaque(false);
+			}
+		};
+		panel.setLayout(null);
+		setContentPane(panel);
 		label = new JLabel[9];
 		for (int i = 0; i < label.length; i++) {
 			label[i] = new JLabel(labelName[i]);
@@ -68,7 +79,7 @@ public class InsertCard extends JDialog {
 			}else{
 				label[i].setBounds(30, 30 + (i*50), 100, 30);
 			}
-			add(label[i]);
+				add(label[i]);
 		}
 		
 		cardName = new JTextField();
@@ -117,7 +128,7 @@ public class InsertCard extends JDialog {
 		confirmBtn = new JButton("登録");
 		confirmBtn.setBounds(165, 540, 70, 30);
 		add(confirmBtn);
-		
+
 	}
 	
 	public void setEvent(){
@@ -129,6 +140,11 @@ public class InsertCard extends JDialog {
 					File file = openImage.getSelectedFile();
 					imagePath.setText(file.toString());
 				}
+			 });
+		
+		confirmBtn.addActionListener(
+		e -> {
+				this.dispose();
 			 });
 	}
 }

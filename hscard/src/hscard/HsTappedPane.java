@@ -1,5 +1,6 @@
 package hscard;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -26,7 +27,7 @@ public class HsTappedPane extends JTabbedPane {
 	private String iconName = "icon_class_";
 	private JPopupMenu popup;
 	private JMenuItem[] popItem;
-	private final String[] popupTitle = {"カード情報詳細","カード変更","カード情報削除"};
+	private final String[] popupTitle = {"カード情報詳細","カード情報変更","カード情報削除"};
 	
 	//Constructor
 	public HsTappedPane() {
@@ -56,6 +57,7 @@ public class HsTappedPane extends JTabbedPane {
 				ImageIcon imc = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\"+iconName + (i + 1) +".gif", 40, 40);
 				ImageIcon cardImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\sample" + ((i + 1) % 3) + ".jpg", 200, 300);
 				jpanel[i] = new JPanel();
+				jpanel[i].setBackground(Color.darkGray);
 				this.addTab("", imc, jpanel[i], jobTitle[i]);
 				for (int j = 0; j < jpanel.length; j++) {
 					cardImageLabel[j] = new JLabel(cardImg);
