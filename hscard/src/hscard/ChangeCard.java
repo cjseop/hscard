@@ -12,7 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class InsertCard extends JDialog {
+public class ChangeCard extends JDialog {
 	//Instance
 	private JLabel label[];
 	private String[] labelName = {"カード名","費用","レアリティ", "クラス", "タイプ", "セット", "効果", "説明", "イメージ"};
@@ -44,7 +44,7 @@ public class InsertCard extends JDialog {
 	private JButton confirmBtn;
 	
 	//Constructor
-	public InsertCard() {
+	public ChangeCard() {
 		setLayout(null);
 		setSize(400, 620);
 		setTitle("カード情報登録");
@@ -73,6 +73,7 @@ public class InsertCard extends JDialog {
 		
 		cardName = new JTextField();
 		cardName.setBounds(120, 30, 200, 30);
+		cardName.setEnabled(false);
 		add(cardName);
 		
 		cost = new JTextField();
@@ -114,7 +115,7 @@ public class InsertCard extends JDialog {
 		imagePath.setEnabled(false);
 		add(imagePath);
 		
-		confirmBtn = new JButton("登録");
+		confirmBtn = new JButton("変更");
 		confirmBtn.setBounds(165, 540, 70, 30);
 		add(confirmBtn);
 		
@@ -124,7 +125,7 @@ public class InsertCard extends JDialog {
 		imageOpenBtn.addActionListener(
 		e -> {
 				openImage = new JFileChooser();
-				int reVal = openImage.showOpenDialog(InsertCard.this);
+				int reVal = openImage.showOpenDialog(ChangeCard.this);
 				if(reVal == JFileChooser.APPROVE_OPTION){
 					File file = openImage.getSelectedFile();
 					imagePath.setText(file.toString());

@@ -103,7 +103,7 @@ public class HsTappedPane extends JTabbedPane {
 				DetailCard detailCard = new DetailCard();
 				break;
 			case "1" :
-				//event
+				ChangeCard changeCard = new ChangeCard();
 				break;
 			case "2" :
 				int messageAnswer = JOptionPane.showConfirmDialog(null, "このカードを削除しますか？", "警告", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

@@ -33,11 +33,12 @@ public class DetailCard extends JDialog {
 		add(cardDetailImg);
 		
 		cardContent = new JTextArea();
+		cardContent.setLineWrap(true);
 		cardContent.setBounds(235,20,230,230);
 		cardContent.setEditable(false);
 		cardContent.setFont(new Font(Font.SERIF, Font.BOLD, 20));
 		cardContent.setForeground(Color.GRAY);
-		cardContent.setText("asdafaasfasf\nasdafasf");
+		cardContent.setText("asdafaasfasfasdafasfaaaaaaaaaaaaaaaaaaa");
 		add(cardContent);
 		
 	}

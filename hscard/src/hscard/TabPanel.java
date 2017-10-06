@@ -74,6 +74,7 @@ public class TabPanel extends JPanel{
 					add(radio[i]);
 				}
 				checkFalse = new JRadioButton();
+				checkFalse.setName("-1");
 				btnGroup.add(checkFalse);
 				
 				add(searchField);
@@ -100,6 +101,8 @@ public class TabPanel extends JPanel{
 						}
 						if(sel1.equals(sel2)){
 							checkFalse.setSelected(true);
+							sel1="";
+							sel2="";
 						}
 						for (int j = 0; j < radio.length; j++) {
 								if(radio[j].isSelected()){
