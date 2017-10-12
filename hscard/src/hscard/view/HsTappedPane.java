@@ -1,13 +1,17 @@
-package hscard;
+package hscard.view;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -16,18 +20,22 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTabbedPane;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+import hscard.bean.HsNameIma;
+import hscard.util.HsUtil;
 
 public class HsTappedPane extends JTabbedPane {
 	//Instance
 	private JPanel[] jpanel;
 	private JLabel[] cardImageLabel;
-	private final String[] jobTitle = {"ウォリアー", "ドルイド","ハンター","メイジー","パラディン",
+	private final String[] jobTitle = {"ドルイド","ハンター","メイジー","パラディン",
 									   "プリースト","ローグ","シャーマン",
-									   "ウォーロック","共通"};
+									   "ウォーロック","ウォリアー","中立"};
 	private String iconName = "icon_class_";
 	private JPopupMenu popup;
 	private JMenuItem[] popItem;
 	private final String[] popupTitle = {"カード情報詳細","カード情報変更","カード情報削除"};
+	
+	private List<HsNameIma> searchList;
 	
 	//Constructor
 	public HsTappedPane() {
@@ -36,7 +44,16 @@ public class HsTappedPane extends JTabbedPane {
 	}
 	
 	//Method
+	public List<HsNameIma> getSearchList() {
+		return searchList;
+	}
+	
+	public void setSearchList(List<HsNameIma> searchList) {
+		this.searchList = searchList;
+	}
+
 	public void setCompose(){
+		searchList = new ArrayList<HsNameIma>();
 		this.setUI(new BasicTabbedPaneUI() {
 			@Override
 			protected void paintTab(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect,
@@ -52,19 +69,13 @@ public class HsTappedPane extends JTabbedPane {
 		
 		jpanel = new JPanel[10];
 		cardImageLabel = new JLabel[10];
-		
 			for (int i = 0; i < jpanel.length; i++) {
 				ImageIcon imc = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\"+iconName + (i + 1) +".gif", 40, 40);
-				ImageIcon cardImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\sample" + ((i + 1) % 3) + ".jpg", 200, 300);
 				jpanel[i] = new JPanel();
+				jpanel[i].setLayout(new GridLayout(2, 5, 0, 30));
+				jpanel[i].setBorder(BorderFactory.createEmptyBorder(0, 0,50, 0));
 				jpanel[i].setBackground(Color.darkGray);
 				this.addTab("", imc, jpanel[i], jobTitle[i]);
-				for (int j = 0; j < jpanel.length; j++) {
-					cardImageLabel[j] = new JLabel(cardImg);
-					jpanel[i].add(cardImageLabel[j]);
-					cardImageLabel[j].addMouseListener(new MyMouseEvent());
-					
-				}
 			}
 			
 			popup = new JPopupMenu();
@@ -83,6 +94,20 @@ public class HsTappedPane extends JTabbedPane {
 		}
 	}
 	
+	public void drawImage(){
+		jpanel[this.getSelectedIndex()].removeAll();
+		for (int i = 0; i < searchList.size(); i++) {
+			ImageIcon cardImg = HsUtil.resizeImage(searchList.get(i).getImage(), 270, 300);
+			cardImageLabel[i] = new JLabel(cardImg);
+			jpanel[this.getSelectedIndex()].add(cardImageLabel[i]);
+			cardImageLabel[i].addMouseListener(new MyMouseEvent());
+		}
+		for (int i = 0; i < cardImageLabel.length - searchList.size(); i++) {
+			cardImageLabel[i] = new JLabel("");
+			jpanel[this.getSelectedIndex()].add(cardImageLabel[i]);
+		}
+	}
+	
 	//Innerclass MouseEvent
 	class MyMouseEvent extends MouseAdapter{
 		
@@ -96,16 +121,15 @@ public class HsTappedPane extends JTabbedPane {
 	
 	//Innseclass menu actionEvent
 	class MyActionEvent implements ActionListener {
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			JMenuItem item = (JMenuItem)e.getSource();
 			switch(item.getName()){
 			case "0" :
-				DetailCard detailCard = new DetailCard();
+				DetailCardDialog detailCard = new DetailCardDialog();
 				break;
 			case "1" :
-				ChangeCard changeCard = new ChangeCard();
+				ChangeCardDialog changeCard = new ChangeCardDialog();
 				break;
 			case "2" :
 				int messageAnswer = JOptionPane.showConfirmDialog(null, "このカードを削除しますか？", "警告", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);

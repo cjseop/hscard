@@ -1,4 +1,4 @@
-package hscard;
+package hscard.view;
 
 import java.awt.Graphics;
 import java.io.File;
@@ -13,7 +13,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-public class ChangeCard extends JDialog {
+import hscard.util.HsUtil;
+
+public class ChangeCardDialog extends JDialog {
 	//Instance
 	private JLabel label[];
 	private String[] labelName = {"カード名","費用","レアリティ", "クラス", "タイプ", "セット", "効果", "説明", "イメージ"};
@@ -24,12 +26,12 @@ public class ChangeCard extends JDialog {
 	private JComboBox<String> Scombo;
 	
 	private String[] RcomboItem = {"フリー","コモン","レア","エピック","レジェン"};
-	private String[] CcomboItem = {"ウォリアー", "ドルイド","ハンター","メイジー","パラディン",
+	private String[] CcomboItem = {"ドルイド","ハンター","メイジー","パラディン",
 								   "プリースト","ローグ","シャーマン",
-								   "ウォーロック","共通"};
+								   "ウォーロック","ウォリアー","中立"};
 	private String[] TcomboItem = {"ミニオン","呪文","武器","ヒーロー"};
 	private String[] ScomboItem = {"基本","クラシック","ナクスラーマスの呪い","ゴブリンvsノーム","ブラックロックマウンテン","グランド・トーナメント"
-			 ,"リーグ・オブ・エクスプローラー","旧神のささやき","ワン・ナイト・イン・カラザン","仁義なきガジェッツァン","大魔境ウンゴロ","凍てつく玉座の騎士団"};
+			 ,"リーグ・オブ・エクスプローラー","旧神のささやき","ワン・ナイト・イン・カラザン","仁義なきガジェッツァン","大魔境ウンゴロ","凍てつく玉座の騎士団", "栄誉の殿堂"};
 	
 	private JTextArea effect;
 	private JTextArea content;
@@ -45,7 +47,7 @@ public class ChangeCard extends JDialog {
 	private JButton confirmBtn;
 	
 	//Constructor
-	public ChangeCard() {
+	public ChangeCardDialog() {
 		setLayout(null);
 		setSize(400, 620);
 		setTitle("カード情報変更");
@@ -136,7 +138,7 @@ public class ChangeCard extends JDialog {
 		imageOpenBtn.addActionListener(
 		e -> {
 				openImage = new JFileChooser();
-				int reVal = openImage.showOpenDialog(ChangeCard.this);
+				int reVal = openImage.showOpenDialog(ChangeCardDialog.this);
 				if(reVal == JFileChooser.APPROVE_OPTION){
 					File file = openImage.getSelectedFile();
 					imagePath.setText(file.toString());

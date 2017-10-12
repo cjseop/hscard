@@ -1,19 +1,26 @@
-package hscard;
+package hscard.view;
 
 import java.awt.Graphics;
 import java.io.File;
+import java.util.StringTokenizer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import hscard.bean.Hscard;
+import hscard.bean.HscardValue;
+import hscard.controller.InsertCardController;
+import hscard.controller.SearchCardController;
+import hscard.util.HsUtil;
 
-public class InsertCard extends JDialog {
+public class InsertCardDialog extends JDialog {
 	//Instance
 	private JLabel label[];
 	private String[] labelName = {"カード名","費用","レアリティ", "クラス", "タイプ", "セット", "効果", "説明", "イメージ"};
@@ -24,12 +31,12 @@ public class InsertCard extends JDialog {
 	private JComboBox<String> Scombo;
 	
 	private String[] RcomboItem = {"フリー","コモン","レア","エピック","レジェン"};
-	private String[] CcomboItem = {"ウォリアー", "ドルイド","ハンター","メイジー","パラディン",
+	private String[] CcomboItem = {"ドルイド","ハンター","メイジー","パラディン",
 								   "プリースト","ローグ","シャーマン",
-								   "ウォーロック","共通"};
+								   "ウォーロック","ウォリアー","中立"};
 	private String[] TcomboItem = {"ミニオン","呪文","武器","ヒーロー"};
 	private String[] ScomboItem = {"基本","クラシック","ナクスラーマスの呪い","ゴブリンvsノーム","ブラックロックマウンテン","グランド・トーナメント"
-			 ,"リーグ・オブ・エクスプローラー","旧神のささやき","ワン・ナイト・イン・カラザン","仁義なきガジェッツァン","大魔境ウンゴロ","凍てつく玉座の騎士団"};
+			 ,"リーグ・オブ・エクスプローラー","旧神のささやき","ワン・ナイト・イン・カラザン","仁義なきガジェッツァン","大魔境ウンゴロ","凍てつく玉座の騎士団", "栄誉の殿堂"};
 	
 	private JTextArea effect;
 	private JTextArea content;
@@ -45,7 +52,7 @@ public class InsertCard extends JDialog {
 	private JButton confirmBtn;
 	
 	//Constructor
-	public InsertCard() {
+	public InsertCardDialog() {
 		setSize(400, 620);
 		setTitle("カード情報登録");
 		setModal(true);
@@ -103,7 +110,6 @@ public class InsertCard extends JDialog {
 		add(Tcombo);
 		add(Scombo);
 		
-		
 		effect = new JTextArea();
 		effect.setLineWrap(true);
 		effectScroll = new JScrollPane(effect);
@@ -135,7 +141,7 @@ public class InsertCard extends JDialog {
 		imageOpenBtn.addActionListener(
 		e -> {
 				openImage = new JFileChooser();
-				int reVal = openImage.showOpenDialog(InsertCard.this);
+				int reVal = openImage.showOpenDialog(InsertCardDialog.this);
 				if(reVal == JFileChooser.APPROVE_OPTION){
 					File file = openImage.getSelectedFile();
 					imagePath.setText(file.toString());
@@ -143,9 +149,96 @@ public class InsertCard extends JDialog {
 			 });
 		
 		confirmBtn.addActionListener(
+			
 		e -> {
+			if(vaildCheck()){
+				Hscard cardBean = new Hscard();
+				cardBean.setCardName(cardName.getText());
+				cardBean.setCardSet(Scombo.getSelectedIndex());
+				cardBean.setContent(content.getText());
+				cardBean.setCost(Integer.parseInt(cost.getText()));
+				cardBean.setEffect(effect.getText());
+				cardBean.setGrade(Rcombo.getSelectedIndex());
+				cardBean.setJob(Ccombo.getSelectedIndex());
+				cardBean.setKind(Tcombo.getSelectedIndex());
+				try {
+					File imageFile = openImage.getSelectedFile();
+					String saveImgPath = HsUtil.saveImageFile(imageFile);
+					cardBean.setImage(saveImgPath);
+				} catch (NullPointerException e2) {
+				}
+				InsertCardController insertCardCon = new InsertCardController();
+				insertCardCon.insertCard(cardBean);
 				this.dispose();
+			}
 			 });
+	}
+	
+	public boolean vaildCheck(){
+		String IncardName = cardName.getText();
+		SearchCardController searchCardCon = new SearchCardController();
+		HscardValue hv = searchCardCon.getCardByCardName(IncardName);
+			if(hv != null){
+				if(IncardName.equals(hv.getCardName())){
+					JOptionPane.showMessageDialog(null, "既に登録しているカードです。", "error", JOptionPane.ERROR_MESSAGE);
+					return false;
+					
+				}
+			}
+			
+		if(IncardName.length() < 1 || IncardName.length() > 30){
+			JOptionPane.showMessageDialog(null, "1 ~ 30桁でカード名を入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		try {
+			if(cost.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "費用を入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+			int intCost = Integer.parseInt(cost.getText());
+			if(intCost < 0 || intCost > 99 ){
+				JOptionPane.showMessageDialog(null, "0 ~ 99範囲内入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "数字のみ入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if(effect.getText().length() > 100){
+			JOptionPane.showMessageDialog(null, "100桁内で入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if(content.getText().length() > 150){
+			JOptionPane.showMessageDialog(null, "150桁内で入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if(!(imagePath.getText().equals(""))){
+			StringTokenizer stz = new StringTokenizer(imagePath.getText(), ".");
+			String suffix = "";
+			while(stz.hasMoreTokens()){
+				suffix = stz.nextToken();
+			}
+			
+			suffix = "." + suffix;
+			//System.out.println(suffix);
+			String[] correctSuffix = {".gif", ".jpg", ".png"};
+			int checksuffix = 0;
+			for (int i = 0; i < correctSuffix.length; i++) {
+				if(suffix.equalsIgnoreCase(correctSuffix[i])){
+					checksuffix = 1;
+				}
+			}
+			
+			if(checksuffix == 0){
+				JOptionPane.showMessageDialog(null, "拡張字が'.gif' '.jpg', '.png'のファイルアのみップロードできます。", "error", JOptionPane.ERROR_MESSAGE);
+				return false;
+			}
+		}
+		return true;
 	}
 }
 

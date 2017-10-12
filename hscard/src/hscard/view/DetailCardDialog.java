@@ -1,4 +1,4 @@
-package hscard;
+package hscard.view;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -9,13 +9,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
-public class DetailCard extends JDialog {
+import hscard.util.HsUtil;
+
+public class DetailCardDialog extends JDialog {
 	//Instance
 	private JLabel cardDetailImg;
 	private JTextArea cardContent;
 	
 	//Constructor
-	public DetailCard() {
+	public DetailCardDialog() {
 		setLayout(null);
 		setSize(500, 300);
 		setTitle("カード情報詳細");

@@ -1,16 +1,18 @@
-package hscard;
+package hscard.view;
 
 import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import hscard.util.HsUtil;
+
 public class Main extends JFrame {
 	//Instance
 	private TabPanel tp;
 	
 	//constructor
-	public Main(String title) throws IOException {		
+	public Main(String title) throws IOException{		
 		ImageIcon backgroundImage = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\Back2.jpg", 1400, 900);
 		setContentPane(new JLabel(backgroundImage));
 		tp = new TabPanel();
