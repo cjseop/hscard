@@ -44,6 +44,7 @@ public class HsTappedPane extends JTabbedPane {
 	private String selectedCardImg;
 	private String updatedImg;
 	private String oldImg;
+	private boolean isUpdateJob;
 
 	// Constructor
 	public HsTappedPane() {
@@ -111,7 +112,12 @@ public class HsTappedPane extends JTabbedPane {
 						ChangeCardDialog changeCard = new ChangeCardDialog(selectedCardName);
 						updatedImg = changeCard.getUpdatedImg();
 						oldImg = changeCard.getOldImg();
-						updateDrawImage();
+						isUpdateJob = changeCard.isUpdateJob;
+						if(isUpdateJob){
+							deleteDrawImage();
+						}else{
+							updateDrawImage();
+						}
 						repaint();
 						break;
 					case "2":

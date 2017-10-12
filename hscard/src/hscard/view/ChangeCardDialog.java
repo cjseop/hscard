@@ -56,6 +56,17 @@ public class ChangeCardDialog extends JDialog {
 	private String updatedImg;
 	private String oldImg;
 	
+	private int oldjob;
+	boolean isUpdateJob;
+	
+	
+	public boolean isUpdateJob() {
+		return isUpdateJob;
+	}
+
+	public void setUpdateJob(boolean isUpdateJob) {
+		this.isUpdateJob = isUpdateJob;
+	}
 
 	public String getOldImg() {
 		return oldImg;
@@ -184,6 +195,11 @@ public class ChangeCardDialog extends JDialog {
 				cardBean.setEffect(effect.getText());
 				cardBean.setGrade(Rcombo.getSelectedIndex());
 				cardBean.setJob(Ccombo.getSelectedIndex());
+				if(cardBean.getJob() == oldjob){
+					isUpdateJob = false;
+				}else{
+					isUpdateJob = true;
+				}
 				cardBean.setKind(Tcombo.getSelectedIndex());
 				try {
 					File imageFile = openImage.getSelectedFile();
@@ -213,6 +229,7 @@ public class ChangeCardDialog extends JDialog {
 			content.setText(bean.getContent());
 			Rcombo.setSelectedIndex(Integer.parseInt(bean.getGrade()));
 			Ccombo.setSelectedIndex(Integer.parseInt(bean.getJob()));
+			oldjob = Integer.parseInt(bean.getJob());
 			Tcombo.setSelectedIndex(Integer.parseInt(bean.getKind()));
 			Scombo.setSelectedIndex(Integer.parseInt(bean.getCardSet()));
 			imagePath.setText(bean.getImage());
