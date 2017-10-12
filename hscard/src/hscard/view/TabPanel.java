@@ -231,19 +231,7 @@ public class TabPanel extends JPanel{
 		
 		public void reDrawTab(){
 			hsTap.drawImage();
-			SwingUtilities.updateComponentTreeUI(hsTap);
-			hsTap.setUI(new BasicTabbedPaneUI() {
-				@Override
-				protected void paintTab(Graphics g, int tabPlacement, Rectangle[] rects, int tabIndex, Rectangle iconRect,
-						Rectangle textRect) {
-					rects[tabIndex].height = 45;
-			        rects[tabIndex].width = 45;
-			        for (int i = 0; i < rects.length; i++) {
-						rects[i].x = 50 * i;
-					}
-					super.paintTab(g, tabPlacement, rects, tabIndex, iconRect, textRect);
-				}
-			});
+			hsTap.repaint();
 		}
 }
 

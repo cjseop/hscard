@@ -51,7 +51,7 @@ public class CardDao extends SuperDao {
 		HscardValue cardBean = new HscardValue();
 		try {
 				super.conn = super.getConnection();
-				String sql = "select name, cost, hg.grade, hj.JOB, hk.kind, hs.cardset, effect, content, image from (((hscard hc inner join HSCARDSET hs on hc.CARDSET = hs.no) inner join hsgrade hg on hc.grade = hg.no) inner join hsjob hj on hc.job = hj.no) inner join HSKIND hk on hc.kind = hk.no where name = ?";
+				String sql = "select * from hscard where name = ?";
 				pstmt = super.conn.prepareStatement(sql);
 				pstmt.setString(1, cardName);
 				rs = pstmt.executeQuery();
@@ -170,5 +170,65 @@ public class CardDao extends SuperDao {
 		super.closeConnection();
 	}
 	return toTalcount;
+	}
+
+	public int DeleteCard(String cardName) {
+		PreparedStatement pstmt = null;
+		int cnt = -99999;
+		try {
+				super.conn = super.getConnection();
+				super.conn.setAutoCommit(false);
+				String sql = "delete HSCARD where name = ?";
+				pstmt = super.conn.prepareStatement(sql);
+				pstmt.setString(1, cardName);
+				cnt = pstmt.executeUpdate();
+				conn.commit();
+		} catch (SQLException e) {
+			SQLException err = (SQLException)e;
+			cnt = -err.getErrorCode();
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}finally{
+				super.closeConnection();
+		}
+		return cnt;
+	}
+
+	public int updateCard(Hscard cardBean) {
+		PreparedStatement pstmt = null;
+		int cnt = -99999;
+		try {
+				super.conn = super.getConnection();
+				super.conn.setAutoCommit(false);
+				String sql = "update HSCARD set cost = ?, grade = ?, job = ?, kind = ?, effect = ?, content = ?, cardset = ?, image = ? where name = ?";
+				pstmt = super.conn.prepareStatement(sql);
+				pstmt.setInt(1, cardBean.getCost());
+				pstmt.setInt(2, cardBean.getGrade());
+				pstmt.setInt(3, cardBean.getJob());
+				pstmt.setInt(4, cardBean.getKind());
+				pstmt.setString(5, cardBean.getEffect());
+				pstmt.setString(6, cardBean.getContent());
+				pstmt.setInt(7, cardBean.getCardSet() + 1);
+				pstmt.setString(8, cardBean.getImage());
+				pstmt.setString(9, cardBean.getCardName());
+				cnt = pstmt.executeUpdate();
+				conn.commit();
+		} catch (SQLException e) {
+			SQLException err = (SQLException)e;
+			cnt = -err.getErrorCode();
+			e.printStackTrace();
+			try {
+				conn.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}finally{
+				super.closeConnection();
+		}
+		return cnt;
 	}
 }

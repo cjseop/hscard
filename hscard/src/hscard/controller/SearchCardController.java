@@ -34,6 +34,6 @@ public class SearchCardController {
 
 	public int getTotalCountByContidion(int searchJob, int searchCost, int searchCardset, String searchName) {
 		return cardDao.getTotalCountByContidion(searchJob, searchCost, searchCardset, searchName);
-	}
+	} 
 
 }

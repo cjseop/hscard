@@ -13,7 +13,6 @@ public class HsPaging {
 		SearchCardController searchCardCon = new SearchCardController();
 		int totalCount = searchCardCon.getTotalCountByContidion(searchJob, searchCost, searchCardset, searchName);
 		totalPage = (int) Math.ceil((double) totalCount / perOnePageCount);
-		System.out.println("totalPage : " + totalPage);
 		if(totalPage == 0){
 			return totalPage = 1;
 		}

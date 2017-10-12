@@ -170,6 +170,7 @@ public class InsertCardDialog extends JDialog {
 				InsertCardController insertCardCon = new InsertCardController();
 				insertCardCon.insertCard(cardBean);
 				this.dispose();
+				JOptionPane.showMessageDialog(null, "カード情報が登録されました。");
 			}
 			 });
 	}
@@ -213,6 +214,11 @@ public class InsertCardDialog extends JDialog {
 		
 		if(content.getText().length() > 150){
 			JOptionPane.showMessageDialog(null, "150桁内で入力してください。", "error", JOptionPane.ERROR_MESSAGE);
+			return false;
+		}
+		
+		if(imagePath.getText().equals("")){
+			JOptionPane.showMessageDialog(null, "カードイメージをアップロードしてください。", "error", JOptionPane.ERROR_MESSAGE);
 			return false;
 		}
 		
