@@ -106,7 +106,7 @@ public class HsTappedPane extends JTabbedPane {
 					JMenuItem item = (JMenuItem) e.getSource();
 					switch (item.getName()) {
 					case "0":
-						DetailCardDialog detailCard = new DetailCardDialog();
+						DetailCardDialog detailCard = new DetailCardDialog(selectedCardName);
 						break;
 					case "1":
 						ChangeCardDialog changeCard = new ChangeCardDialog(selectedCardName);
