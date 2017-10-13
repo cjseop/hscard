@@ -231,7 +231,7 @@ public class ChangeCardDialog extends JDialog {
 			Ccombo.setSelectedIndex(Integer.parseInt(bean.getJob()));
 			oldjob = Integer.parseInt(bean.getJob());
 			Tcombo.setSelectedIndex(Integer.parseInt(bean.getKind()));
-			Scombo.setSelectedIndex(Integer.parseInt(bean.getCardSet()));
+			Scombo.setSelectedIndex(Integer.parseInt(bean.getCardSet()) - 1);
 			imagePath.setText(bean.getImage());
 			selectedImg = bean.getImage();
 	}

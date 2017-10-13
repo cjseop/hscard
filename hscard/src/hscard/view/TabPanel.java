@@ -7,16 +7,21 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+
+import hscard.bean.HsNameIma;
 import hscard.controller.SearchCardController;
 import hscard.util.HsPaging;
 import hscard.util.HsUtil;
@@ -31,6 +36,8 @@ public class TabPanel extends JPanel{
 		private String[] cardPackName = {"全部","基本","クラシック","ナクスラーマスの呪い","ゴブリンvsノーム","ブラックロックマウンテン","グランド・トーナメント"
 										 ,"リーグ・オブ・エクスプローラー","旧神のささやき","ワン・ナイト・イン・カラザン","仁義なきガジェッツァン","大魔境ウンゴロ","凍てつく玉座の騎士団", "栄誉の殿堂"};
 		private HsPaging paging;
+		
+		private List<HsNameIma> list;
 		
 		/*
 		  	0 全部
@@ -145,10 +152,10 @@ public class TabPanel extends JPanel{
 								if(radio[j].isSelected()){
 									searchCost = Integer.valueOf(radio[j].getName());
 									paging.setSelectPage(1);
-									getSearchList();
-									reDrawTab();
 									ImageIcon chgradioImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\c" + j + ".png", 35, 35);
 									radio[j].setIcon(chgradioImg);
+									getSearchList();
+									reDrawTab();
 								}else{
 									ImageIcon chgradioImg = HsUtil.resizeImage("C:\\Users\\KISSCO-PC82\\git\\hscard\\hscard\\src\\images\\" + j + ".png", 35, 35);
 									radio[j].setIcon(chgradioImg);
@@ -226,12 +233,18 @@ public class TabPanel extends JPanel{
 				nexBtn.setVisible(true);
 			}
 			SearchCardController searchCardCon = new SearchCardController();
-			hsTap.setSearchList(searchCardCon.getNameImagebySearch(hsTap.getSelectedIndex(), searchCost, combo.getSelectedIndex(), searchField.getText(), paging.getSelectPage()));
+			list = new ArrayList<HsNameIma>();
+			list = searchCardCon.getNameImagebySearch(hsTap.getSelectedIndex(), searchCost, combo.getSelectedIndex(), searchField.getText(), paging.getSelectPage());
+			hsTap.setSearchList(list);
+			
 		}
 		
 		public void reDrawTab(){
 			hsTap.drawImage();
 			hsTap.repaint();
+			if(list.size() == 0){
+				JOptionPane.showMessageDialog(null, "検索結果がありません。");
+			}
 		}
 }
 

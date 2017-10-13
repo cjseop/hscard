@@ -189,7 +189,6 @@ public class HsTappedPane extends JTabbedPane {
 
 	// Innerclass MouseEvent
 	class MyMouseEvent extends MouseAdapter {
-
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if (e.getButton() == MouseEvent.BUTTON3) {

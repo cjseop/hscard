@@ -26,7 +26,7 @@ public class CardDao extends SuperDao {
 				pstmt.setInt(5, cardBean.getKind());
 				pstmt.setString(6, cardBean.getEffect());
 				pstmt.setString(7, cardBean.getContent());
-				pstmt.setInt(8, cardBean.getCardSet());
+				pstmt.setInt(8, cardBean.getCardSet() + 1);
 				pstmt.setString(9, cardBean.getImage());
 				cnt = pstmt.executeUpdate();
 				conn.commit();
@@ -212,7 +212,7 @@ public class CardDao extends SuperDao {
 				pstmt.setInt(4, cardBean.getKind());
 				pstmt.setString(5, cardBean.getEffect());
 				pstmt.setString(6, cardBean.getContent());
-				pstmt.setInt(7, cardBean.getCardSet());
+				pstmt.setInt(7, cardBean.getCardSet() + 1);
 				pstmt.setString(8, cardBean.getImage());
 				pstmt.setString(9, cardBean.getCardName());
 				cnt = pstmt.executeUpdate();
